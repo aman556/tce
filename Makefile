@@ -33,16 +33,21 @@ help: #### display help
 ### GLOBAL ###
 
 ##### BUILD #####
+BUILD_SHA ?= $$(git rev-parse --short HEAD)
+BUILD_DATE ?= $$(date -u +"%Y-%m-%d")
 ifndef BUILD_VERSION
 BUILD_VERSION ?= $$(git describe --tags --abbrev=0)
 endif
-BUILD_SHA ?= $$(git rev-parse --short HEAD)
-BUILD_DATE ?= $$(date -u +"%Y-%m-%d")
 CONFIG_VERSION ?= $$(echo "$(BUILD_VERSION)" | cut -d "-" -f1)
+BUILD_EDITION=tce
 
 ifeq ($(strip $(BUILD_VERSION)),)
 BUILD_VERSION = dev
 endif
+ifndef IS_OFFICIAL_BUILD
+IS_OFFICIAL_BUILD = ""
+endif
+
 CORE_BUILD_VERSION=$$(cat "./hack/CORE_BUILD_VERSION")
 NEW_BUILD_VERSION=$$(cat "./hack/NEW_BUILD_VERSION" 2>/dev/null)
 
@@ -50,6 +55,8 @@ LD_FLAGS = -s -w
 LD_FLAGS += -X "github.com/vmware-tanzu-private/core/pkg/v1/cli.BuildDate=$(BUILD_DATE)"
 LD_FLAGS += -X "github.com/vmware-tanzu-private/core/pkg/v1/cli.BuildSHA=$(BUILD_SHA)"
 LD_FLAGS += -X "github.com/vmware-tanzu-private/core/pkg/v1/cli.BuildVersion=$(BUILD_VERSION)"
+LD_FLAGS += -X 'main.BuildEdition=$(BUILD_EDITION)'
+LD_FLAGS += -X 'github.com/vmware-tanzu-private/core/pkg/v1/tkg/buildinfo.IsOfficialBuild=$(IS_OFFICIAL_BUILD)'
 
 ARTIFACTS_DIR ?= ./artifacts
 
@@ -103,7 +110,19 @@ REPO_TAG := 0.4.0
 
 # Tag for a package by default
 TAG := latest
-##### REPOSITORY METADATA #####
+
+### BOM Details
+# BoM repo, path and tag related configuration
+# TODO: update the image tag to latest
+# ifndef TKG_DEFAULT_IMAGE_REPOSITORY
+# TKG_DEFAULT_IMAGE_REPOSITORY= ${OCI_REGISTRY}
+# endif
+# ifndef TKG_DEFAULT_BOM_IMAGE_PATH
+# TKG_DEFAULT_BOM_IMAGE_PATH=sandbox/bom/359313379245968373/tkg-bom
+# endif
+# ifndef TKG_DEFAULT_COMPATIBILITY_IMAGE_PATH
+# TKG_DEFAULT_COMPATIBILITY_IMAGE_PATH=v1.4.0-zshippable/tkg-compatibility
+# endif
 
 ##### LINTING TARGETS #####
 .PHONY: lint mdlint shellcheck check
@@ -149,7 +168,6 @@ release-docker: release-env-check ### builds and produces the release packaging/
 		-e HOME=/go \
 		-e GH_ACCESS_TOKEN=${GH_ACCESS_TOKEN} \
 		-e GITLAB_CI_BUILD=true \
-		-e SKIP_GITLAB_REDIRECT=true \
 		-w /go/src/tce \
 		-v ${PWD}:/go/src/tce \
 		-v /tmp:/tmp \
@@ -206,12 +224,15 @@ build-cli: install-cli
 
 .PHONY: install-cli
 install-cli:
-	TANZU_CORE_REPO_BRANCH="tce-v1.3.0" TKG_CLI_REPO_BRANCH="tce-v1.3.0-saui" CLUSTER_API_REPO_BRANCH="tce-v0.3.14" TKG_PROVIDERS_REPO_BRANCH="tce-v1.3.0" TANZU_TKG_CLI_PLUGINS_REPO_BRANCH="tce-v1.3.0" BUILD_VERSION=${CORE_BUILD_VERSION} hack/build-tanzu.sh
+	TKG_DEFAULT_COMPATIBILITY_IMAGE_PATH="tkg-compatibility" \
+	TANZU_CORE_REPO_HASH="5ea082b8ace4b3af6fba9d9f528742a601b85626" BUILD_EDITION=tce TCE_BUILD_VERSION=$(BUILD_VERSION) \
+	CORE_BUILD_VERSION=${CORE_BUILD_VERSION} hack/build-tanzu.sh
 
 .PHONY: clean-core
 clean-core:
 	rm -rf /tmp/tce-release
-	rm -rf ${XDG_DATA_HOME}/tanzu-cli/*
+	rm -rf ${XDG_DATA_HOME}/tanzu-cli
+	mkdir -p ${XDG_DATA_HOME}/tanzu-cli
 # TANZU CLI
 
 # PLUGINS
@@ -221,13 +242,13 @@ prep-build-cli:
 
 .PHONY: build-cli-plugins
 build-cli-plugins: prep-build-cli
-	$(GO) run github.com/vmware-tanzu-private/core/cmd/cli/plugin-admin/builder cli compile --version $(BUILD_VERSION) \
+	BUILD_EDITION="tce" $(GO) run github.com/vmware-tanzu-private/core/cmd/cli/plugin-admin/builder cli compile --version $(BUILD_VERSION) \
 		--ldflags "$(LD_FLAGS)" --path ./cli/cmd/plugin --artifacts ${ARTIFACTS_DIR}
 
 .PHONY: install-cli-plugins
 install-cli-plugins: build-cli-plugins
 	TANZU_CLI_NO_INIT=true $(GO) run -ldflags "$(LD_FLAGS)" github.com/vmware-tanzu-private/core/cmd/cli/tanzu \
-		plugin install all --local $(ARTIFACTS_DIR) -u
+		plugin install all --local $(ARTIFACTS_DIR)
 
 test-plugins: ## run tests on TCE plugins
 	# TODO(joshrosso): update once we get our testing strategy in place
