@@ -217,7 +217,13 @@ clean-core:
 # PLUGINS
 .PHONY: prep-build-cli
 prep-build-cli:
-	$(GO) mod download
+	@cd ./cli/cmd/plugin/ && for plugin in *; do\
+		printf "===> Preparing $${plugin}\n";\
+		working_dir=`pwd`;\
+		cd $${plugin};\
+		$(GO) mod download;\
+		cd $${working_dir};\
+	done
 
 .PHONY: build-cli-plugins
 build-cli-plugins: prep-build-cli

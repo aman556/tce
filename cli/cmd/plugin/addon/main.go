@@ -11,7 +11,7 @@ import (
 	"github.com/vmware-tanzu-private/core/pkg/v1/cli"
 	"github.com/vmware-tanzu-private/core/pkg/v1/cli/command/plugin"
 
-	"github.com/vmware-tanzu/tce/cli/pkg/addon"
+	. "github.com/vmware-tanzu/tce/cli/cmd/plugin/addon/pkg"
 )
 
 var descriptor = cli.PluginDescriptor{
@@ -30,11 +30,11 @@ func main() {
 	}
 
 	p.AddCommands(
-		addon.ListCmd,
-		addon.ConfigureCmd,
-		addon.InstallCmd,
-		addon.DeleteCmd,
-		addon.RepositoryCmd,
+		ListCmd,
+		ConfigureCmd,
+		InstallCmd,
+		DeleteCmd,
+		RepositoryCmd,
 	)
 	if err := p.Execute(); err != nil {
 		os.Exit(1)

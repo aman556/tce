@@ -6,7 +6,7 @@ package main
 import (
 	"os"
 
-	"github.com/vmware-tanzu/tce/cli/pkg/standalone-cluster"
+	. "github.com/vmware-tanzu/tce/cli/cmd/plugin/standalone-cluster/pkg"
 
 	klog "k8s.io/klog/v2"
 
@@ -34,8 +34,8 @@ func main() {
 	p.Cmd.PersistentFlags().Int32VarP(&logLevel, "verbose", "v", 0, "Number for the log level verbosity(0-9)")
 
 	p.AddCommands(
-		standalone.CreateCmd,
-		standalone.DeleteCmd,
+		CreateCmd,
+		DeleteCmd,
 	)
 	if err := p.Execute(); err != nil {
 		os.Exit(1)
