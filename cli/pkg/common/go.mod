@@ -16,7 +16,7 @@ require (
 	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/stretchr/testify v1.7.0 // indirect
 	github.com/vmware-tanzu/carvel-kapp-controller v0.19.1-0.20210422224550-3c235246c149
-	github.com/vmware-tanzu/carvel-vendir v0.18.0
+	github.com/vmware-tanzu/carvel-vendir v0.19.0
 	github.com/vmware-tanzu/tce/cli/pkg/utils v0.0.0-00010101000000-000000000000
 	go.uber.org/zap v1.15.0 // indirect
 	golang.org/x/crypto v0.0.0-20201117144127-c1f2f97bffc9 // indirect
@@ -45,6 +45,7 @@ replace (
 	// github.com/vmware-tanzu-private/tkg-cli => ../../vmware-tanzu-private/tkg-cli
 	// github.com/vmware-tanzu-private/tkg-providers => ../../vmware-tanzu-private/tkg-providers
 	github.com/vmware-tanzu-private/tkg-providers => github.com/vmware-tanzu-private/tkg-providers v1.3.1-0.20210422215837-027482ef8765
+
 	// -- cross module development --
 	github.com/vmware-tanzu/tce/cli/pkg/utils => ../utils
 

@@ -26,9 +26,9 @@ replace (
 	// github.com/vmware-tanzu-private/tkg-cli => ../../vmware-tanzu-private/tkg-cli
 	// github.com/vmware-tanzu-private/tkg-providers => ../../vmware-tanzu-private/tkg-providers
 	github.com/vmware-tanzu-private/tkg-providers => github.com/vmware-tanzu-private/tkg-providers v1.3.1-0.20210422215837-027482ef8765
-	github.com/vmware-tanzu/tce/cli/pkg/common => ../../../pkg/common
 
 	// -- Local package development --
+	github.com/vmware-tanzu/tce/cli/pkg/common => ../../../pkg/common
 	github.com/vmware-tanzu/tce/cli/pkg/utils => ../../../pkg/utils
 
 	k8s.io/api => k8s.io/api v0.17.11
