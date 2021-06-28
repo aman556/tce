@@ -227,13 +227,15 @@ prep-build-cli:
 
 .PHONY: build-cli-plugins
 build-cli-plugins: prep-build-cli
-	$(GO) run github.com/vmware-tanzu-private/core/cmd/cli/plugin-admin/builder cli compile --version $(BUILD_VERSION) \
-		--ldflags "$(LD_FLAGS)" --path ./cli/cmd/plugin --artifacts ${ARTIFACTS_DIR}
+	@cd ./hack/builder/ && \
+		$(GO) run github.com/vmware-tanzu-private/core/cmd/cli/plugin-admin/builder cli compile --version $(BUILD_VERSION) \
+			--ldflags "$(LD_FLAGS)" --path ../../cli/cmd/plugin --artifacts ../../${ARTIFACTS_DIR}
 
 .PHONY: install-cli-plugins
 install-cli-plugins: build-cli-plugins
-	TANZU_CLI_NO_INIT=true $(GO) run -ldflags "$(LD_FLAGS)" github.com/vmware-tanzu-private/core/cmd/cli/tanzu \
-		plugin install all --local $(ARTIFACTS_DIR) -u
+	@cd ./hack/builder/ && \
+		TANZU_CLI_NO_INIT=true $(GO) run -ldflags "$(LD_FLAGS)" github.com/vmware-tanzu-private/core/cmd/cli/tanzu \
+			plugin install all --local ../../$(ARTIFACTS_DIR)
 
 test-plugins: ## run tests on TCE plugins
 	# TODO(joshrosso): update once we get our testing strategy in place
