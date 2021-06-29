@@ -100,8 +100,8 @@ cp -f "${ROOT_CORE_ARTFACTS_DIR}/windows/amd64/cli/login/${CORE_BUILD_VERSION}/t
 cp -f "${ROOT_CORE_ARTFACTS_DIR}/windows/amd64/cli/pinniped-auth/${CORE_BUILD_VERSION}/tanzu-pinniped-auth-windows_amd64.exe" "${PACKAGE_WINDOWS_AMD64_DIR}/bin/tanzu-plugin-pinniped-auth.exe"
 cp -f "${ROOT_CORE_ARTFACTS_DIR}/windows/amd64/cli/management-cluster/${CORE_BUILD_VERSION}/tanzu-management-cluster-windows_amd64.exe" "${PACKAGE_WINDOWS_AMD64_DIR}/bin/tanzu-plugin-management-cluster.exe"
 
-cp -f "${ROOT_CORE_ARTFACTS_ADMIN_DIR}/windows/amd64/cli/builder/${CORE_BUILD_VERSION}/tanzu-builder-windows_amd64.exe" "${PACKAGE_WINDOWS_AMD64_DIR}/bin/tanzu-plugin-builder"
-cp -f "${ROOT_CORE_ARTFACTS_ADMIN_DIR}/windows/amd64/cli/test/${CORE_BUILD_VERSION}/tanzu-test-windows_amd64.exe" "${PACKAGE_WINDOWS_AMD64_DIR}/bin/tanzu-plugin-test"
+cp -f "${ROOT_CORE_ARTFACTS_ADMIN_DIR}/windows/amd64/cli/builder/${CORE_BUILD_VERSION}/tanzu-builder-windows_amd64.exe" "${PACKAGE_WINDOWS_AMD64_DIR}/bin/tanzu-plugin-builder.exe"
+cp -f "${ROOT_CORE_ARTFACTS_ADMIN_DIR}/windows/amd64/cli/test/${CORE_BUILD_VERSION}/tanzu-test-windows_amd64.exe" "${PACKAGE_WINDOWS_AMD64_DIR}/bin/tanzu-plugin-test.exe"
 
 # TCE bits (New folder structure using core main)
 # cp -f "${ROOT_TCE_ARTIFACTS_DIR}/windows/amd64/cli/package/${TCE_BUILD_VERSION}/tanzu-package-windows_amd64.exe" "${PACKAGE_WINDOWS_AMD64_DIR}/bin/tanzu-plugin-package.exe

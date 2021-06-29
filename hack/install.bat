@@ -2,19 +2,15 @@
 :: SPDX-License-Identifier: Apache-2.0
 
 @echo off
-SET BINARY=%CD%\%0
-SET ROOT_DIR=%BINARY:~0,-7%
-:: echo %ROOT_DIR%
-cd %ROOT_DIR%
 
 :: start copy tanzu cli
 SET TANZU_CLI_DIR=%ProgramFiles%\tanzu
-mkdir %TANZU_CLI_DIR%
-copy /B /Y bin\tanzu.exe %TANZU_CLI_DIR%
+mkdir "%TANZU_CLI_DIR%"
+copy /B /Y bin\tanzu.exe "%TANZU_CLI_DIR%"
 
 :: set cli path
 set PATH=%PATH%;%TANZU_CLI_DIR%
-setx /M path "%path%;%TANZU_CLI_DIR%"
+:: setx /M path "%path%;%TANZU_CLI_DIR%"
 :: end copy tanzu cli
 
 :: start copy plugins
@@ -35,3 +31,6 @@ copy /B /Y bin\tanzu-plugin-standalone-cluster.exe %PLUGIN_DIR%
 
 :: explicit init of tanzu cli and add tce repo
 tanzu plugin repo add --name tce --gcp-bucket-name tce-cli-plugins --gcp-root-path artifacts
+
+echo "Installation complete!"
+echo "Please add %TANZU_CLI_DIR% permanently into your system's PATH."

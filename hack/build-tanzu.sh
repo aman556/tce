@@ -47,4 +47,5 @@ make configure-bom
 make build-install-cli-all
 # by default, core only builds admins plugins for the current platform. we need darwin also.
 GOHOSTOS=darwin GOHOSTARCH=amd64 make build-plugin-admin
+GOHOSTOS=windows GOHOSTARCH=amd64 make build-plugin-admin
 popd || exit 1
