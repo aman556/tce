@@ -32,14 +32,17 @@ ROOT_CORE_DIR="${DEP_BUILD_DIR}/core"
 
 PACKAGE_LINUX_AMD64_DIR="${BUILD_ROOT_DIR}/tce-linux-amd64-${BUILD_VERSION}"
 PACKAGE_DARWIN_AMD64_DIR="${BUILD_ROOT_DIR}/tce-darwin-amd64-${BUILD_VERSION}"
+PACKAGE_WINDOWS_AMD64_DIR="${BUILD_ROOT_DIR}/tce-windows-amd64-${BUILD_VERSION}"
 
 # delete and create everything
 rm -rf "${BUILD_ROOT_DIR}"
 rm -rf "${PACKAGE_LINUX_AMD64_DIR}"
 rm -rf "${PACKAGE_DARWIN_AMD64_DIR}"
+rm -rf "${PACKAGE_WINDOWS_AMD64_DIR}"
 mkdir -p "${BUILD_ROOT_DIR}"
 mkdir -p "${PACKAGE_LINUX_AMD64_DIR}/bin"
 mkdir -p "${PACKAGE_DARWIN_AMD64_DIR}/bin"
+mkdir -p "${PACKAGE_WINDOWS_AMD64_DIR}/bin"
 
 # Common directories
 ROOT_CORE_ARTFACTS_DIR="${ROOT_CORE_DIR}/artifacts"
@@ -85,6 +88,27 @@ cp -f "${ROOT_CORE_ARTFACTS_ADMIN_DIR}/darwin/amd64/cli/test/${CORE_BUILD_VERSIO
 # TCE bits (using v1.3.0 core)
 cp -f "${ROOT_TCE_ARTIFACTS_DIR}/package/${TCE_BUILD_VERSION}/tanzu-package-darwin_amd64" "${PACKAGE_DARWIN_AMD64_DIR}/bin/tanzu-plugin-package"
 cp -f "${ROOT_TCE_ARTIFACTS_DIR}/standalone-cluster/${TCE_BUILD_VERSION}/tanzu-standalone-cluster-darwin_amd64" "${PACKAGE_DARWIN_AMD64_DIR}/bin/tanzu-plugin-standalone-cluster"
+
+
+# copy tanzu cli bits Windows AMD64
+# Tanzu bits
+cp -f "${ROOT_CORE_ARTFACTS_DIR}/core/latest/tanzu-core-darwin_amd64" "${PACKAGE_DARWIN_AMD64_DIR}/bin/tanzu"
+cp -f "${ROOT_CORE_ARTFACTS_DIR}/alpha/${CORE_BUILD_VERSION}/tanzu-alpha-darwin_amd64" "${PACKAGE_DARWIN_AMD64_DIR}/bin/tanzu-plugin-alpha"
+cp -f "${ROOT_CORE_ARTFACTS_DIR}/cluster/${CORE_BUILD_VERSION}/tanzu-cluster-darwin_amd64" "${PACKAGE_DARWIN_AMD64_DIR}/bin/tanzu-plugin-cluster"
+cp -f "${ROOT_CORE_ARTFACTS_DIR}/kubernetes-release/${CORE_BUILD_VERSION}/tanzu-kubernetes-release-darwin_amd64" "${PACKAGE_DARWIN_AMD64_DIR}/bin/tanzu-plugin-kubernetes-release"
+cp -f "${ROOT_CORE_ARTFACTS_DIR}/login/${CORE_BUILD_VERSION}/tanzu-login-darwin_amd64" "${PACKAGE_DARWIN_AMD64_DIR}/bin/tanzu-plugin-login"
+cp -f "${ROOT_CORE_ARTFACTS_DIR}/pinniped-auth/${CORE_BUILD_VERSION}/tanzu-pinniped-auth-darwin_amd64" "${PACKAGE_DARWIN_AMD64_DIR}/bin/tanzu-plugin-pinniped-auth"
+
+cp -f "${ROOT_CORE_ARTFACTS_ADMIN_DIR}/builder/${CORE_BUILD_VERSION}/tanzu-builder-darwin_amd64" "${PACKAGE_DARWIN_AMD64_DIR}/bin/tanzu-plugin-builder"
+cp -f "${ROOT_CORE_ARTFACTS_ADMIN_DIR}/test/${CORE_BUILD_VERSION}/tanzu-test-darwin_amd64" "${PACKAGE_DARWIN_AMD64_DIR}/bin/tanzu-plugin-test"
+
+# TKG bits
+cp -f "${ROOT_TKG_PLUGINS_ARTIFACTS_DIR}/management-cluster/${CORE_BUILD_VERSION}/tanzu-management-cluster-darwin_amd64" "${PACKAGE_DARWIN_AMD64_DIR}/bin/tanzu-plugin-management-cluster"
+
+# TCE bits
+cp -f "${ROOT_EXTENSION_ARTIFACTS_DIR}/package/${EXTENSION_BUILD_VERSION}/tanzu-package-darwin_amd64" "${PACKAGE_DARWIN_AMD64_DIR}/bin/tanzu-plugin-package"
+cp -f "${ROOT_EXTENSION_ARTIFACTS_DIR}/standalone-cluster/${EXTENSION_BUILD_VERSION}/tanzu-standalone-cluster-darwin_amd64" "${PACKAGE_DARWIN_AMD64_DIR}/bin/tanzu-plugin-standalone-cluster"
+
 
 # change settings
 chmod +x "${ROOT_REPO_DIR}/hack/install.sh"
