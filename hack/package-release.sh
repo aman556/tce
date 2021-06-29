@@ -108,7 +108,7 @@ cp -f "${ROOT_CORE_ARTFACTS_ADMIN_DIR}/windows/amd64/cli/test/${CORE_BUILD_VERSI
 # cp -f "${ROOT_TCE_ARTIFACTS_DIR}/windows/amd64/cli/standalone-cluster/${TCE_BUILD_VERSION}/tanzu-standalone-cluster-windows_amd64.exe" "${PACKAGE_WINDOWS_AMD64_DIR}/bin/tanzu-standalone-cluster.exe"
 # TCE bits (using v1.3.0 core)
 cp -f "${ROOT_TCE_ARTIFACTS_DIR}/package/${TCE_BUILD_VERSION}/tanzu-package-windows_amd64.exe" "${PACKAGE_WINDOWS_AMD64_DIR}/bin/tanzu-plugin-package.exe"
-cp -f "${ROOT_TCE_ARTIFACTS_DIR}/standalone-cluster/${TCE_BUILD_VERSION}/tanzu-standalone-cluster-windows_amd64.exe" "${PACKAGE_WINDOWS_AMD64_DIR}/bin/tanzu-standalone-cluster.exe"
+cp -f "${ROOT_TCE_ARTIFACTS_DIR}/standalone-cluster/${TCE_BUILD_VERSION}/tanzu-standalone-cluster-windows_amd64.exe" "${PACKAGE_WINDOWS_AMD64_DIR}/bin/tanzu-plugin-standalone-cluster.exe"
 
 
 # change settings
