@@ -12,19 +12,19 @@ endif
 
 REQUIRED_BINARIES := imgpkg kbld ytt
 
-TOOLS_DIR := hack/tools
-TOOLS_BIN_DIR := $(TOOLS_DIR)/bin
-
-# Add tooling binaries here and in hack/tools/Makefile
-GOLANGCI_LINT := $(TOOLS_BIN_DIR)/golangci-lint
-TOOLING_BINARIES := $(GOLANGCI_LINT)
-
 .DEFAULT_GOAL:=help
 
 ### GLOBAL ###
 ROOT_DIR := $(shell git rev-parse --show-toplevel)
 GOOS ?= $(shell go env GOOS)
 GOARCH ?= $(shell go env GOARCH)
+
+TOOLS_DIR := $(ROOT_DIR)/hack/tools
+TOOLS_BIN_DIR := $(TOOLS_DIR)/bin
+
+# Add tooling binaries here and in hack/tools/Makefile
+GOLANGCI_LINT := $(TOOLS_BIN_DIR)/golangci-lint
+TOOLING_BINARIES := $(GOLANGCI_LINT)
 
 help: #### display help
 	@awk 'BEGIN {FS = ":.*## "; printf "\nTargets:\n"} /^[a-zA-Z_-]+:.*?#### / { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
@@ -113,7 +113,14 @@ ensure-deps:
 	hack/ensure-dependencies.sh
 
 lint: tools
-	$(GOLANGCI_LINT) run -v --timeout=5m
+	@printf "\n===> Linting addon plugin\n"
+	@cd cli/cmd/plugin/addon && $(GOLANGCI_LINT) run -v --timeout=5m
+	@printf "\n===> Linting standalone plugin\n"
+	@cd cli/cmd/plugin/standalone-cluster && $(GOLANGCI_LINT) run -v --timeout=5m
+	@printf "\n===> Linting utils pacakge\n"
+	@cd cli/pkg/utils && $(GOLANGCI_LINT) run -v --timeout=5m
+	@printf "\n===> Linting common package\n"
+	@cd cli/pkg/common && $(GOLANGCI_LINT) run -v --timeout=5m
 
 mdlint:
 	hack/check-mdlint.sh
