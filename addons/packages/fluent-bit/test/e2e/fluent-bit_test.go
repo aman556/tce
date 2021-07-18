@@ -5,8 +5,8 @@ package e2e_test
 
 import (
 	"fmt"
+	"net/http"
 	"os/exec"
-	"strings"
 	"time"
 
 	. "github.com/onsi/ginkgo"
@@ -15,7 +15,7 @@ import (
 
 var _ = Describe("Fluent-bit Addon E2E Test", func() {
 	Specify("check fluent-bit is running", func() {
-		var result string
+		var result int
 		signal := make(chan *exec.Cmd)
 		timeOut := make(chan bool)
 		go func() {
@@ -24,35 +24,29 @@ var _ = Describe("Fluent-bit Addon E2E Test", func() {
 			Expect(err).To(HaveOccurred())
 		}()
 		command := <-signal
-		println("------------------------->>>>>>>>>>>>>>>>>>>>", command)
-		time.AfterFunc(ApiCallTimeout, func() {
-			timeOut <- true
+		tr := time.AfterFunc(ApiCallTimeout, func() {
+			if command != nil {
+				command.Process.Kill()
+			}
+			close(signal)
+			println("command timed out")
+			Expect(result).Should(Equal(200))
 		})
-		//defer tr.Stop()
+		defer tr.Stop()
 
 		for {
-			select {
-			case <-timeOut:
-				if command != nil {
-					command.Process.Kill()
-				}
-				close(signal)
-				println("command timed out")
-				Expect(result).Should(ContainSubstring("HTTP/1.1 200 OK"))
-
-			default:
-				// ping fluent-bit health api call. If it retunrs successful that means,yes it is working.
-				result, _ = cmdHelperUp.Run("curl", nil, "fluent-bit-health-check")
-
-				if strings.Contains(result, "HTTP/1.1 200 OK") {
+			resp, _ := http.Get(cmdHelperUp.CommandArgs["fluent-bit-health-check"][1])
+			if resp != nil {
+				result = resp.StatusCode
+				if resp.StatusCode == 200 {
 					fmt.Println("Test successfully done")
 					if command != nil {
 						command.Process.Kill()
 					}
-					Expect(result).Should(ContainSubstring("HTTP/1.1 200 OK"))
+					Expect(resp.StatusCode).Should(Equal(200))
 				}
 			}
-			if result != "" {
+			if result != 0 {
 				close(timeOut)
 				close(signal)
 				if command != nil {
