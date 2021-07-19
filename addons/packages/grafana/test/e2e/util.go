@@ -4,7 +4,7 @@
 package e2e
 
 // GetAllUpCmds returns all commands used to run on tanzu or k8s
-// these commands are w.r.t gatekeeper addon e2e only
+// these commands are w.r.t grafana addon e2e only
 func GetAllUpCmds() map[string][]string {
 	return map[string][]string{
 		"k8s-apply":                   []string{"apply", "-f", "$"},
@@ -20,7 +20,7 @@ func GetAllUpCmds() map[string][]string {
 
 // GetTearDownCmds returns all commands used to tear-down.
 // contains tanzu or k8s commands
-// these commands are w.r.t gatekeeper addon e2e only
+// these commands are w.r.t grafana addon e2e only
 func GetTearDownCmds() map[string][]string {
 	return map[string][]string{
 		"k8s-delete":    []string{"delete", "-f", "$"},
