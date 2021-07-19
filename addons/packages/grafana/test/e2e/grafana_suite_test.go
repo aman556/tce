@@ -52,7 +52,7 @@ var _ = BeforeSuite(func() {
 	}, DeploymentTimeout, DeploymentCheckInterval).Should(Equal("True"), fmt.Sprintln("deployment was not ready"))
 })
 var _ = AfterSuite(func() {
-	// delete the gatekeeper package
+	// delete the grafana package
 	result, err := cmdHelperDown.CliRunner("tanzu", nil, cmdHelperDown.GetFormatted("tanzu-package-delete", "$", []string{"grafana.tce.vmware.com"})...)
 	Expect(err).NotTo(HaveOccurred())
 	Expect(result).Should(ContainSubstring("Deleted default/grafana.tce.vmware.com"))
