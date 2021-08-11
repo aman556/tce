@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Copyright 2021 VMware Tanzu Community Edition contributors. All Rights Reserved.
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: Apache-2.0 tere
 
 
 set -o errexit
@@ -20,4 +20,3 @@ fi
 
 # Spell checking
 misspell -error "${MY_DIR}/.."
-
