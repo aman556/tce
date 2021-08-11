@@ -12,7 +12,7 @@
    Risus ultricies tristique nulla. Vestibulum lectus mauris ultrices eros. 
    Ut morbi tincidunt augue interdum velit. At risus viverra adipiscing at in. 
 
-1. Nulla facilisi cras fermentum odio eu feugiat pretium nibh.
+1. Nulla facilities cras fermentum odio eu feugiat pretium nibh.
 
 ## Commodo
 
@@ -26,7 +26,7 @@ Ut tortor pretium viverra suspendisse potenti. Dictum at tempor commodo ullamcor
 
 ## Suspendisse potenti nullam ac tortor
  
-Vitae purus faucibus eu tincidunt tortor aliquam nulla facilisi cras fermentum odio. Nisl condimentum id 
+Vitae purus faucibus eu tincidunt tortor aliquam nulla facilities cras fermentum odio. Nisl condimentum id 
 venenatis a condimentum. Orci phasellus egestas tellus rutrum tellus pellentesque eu. 
 Id faucibus nisl tincidunt eget nullam non nisi. Amet purus gravida quis blandit turpis cursus in hac. 
 

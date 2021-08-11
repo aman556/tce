@@ -22,7 +22,7 @@ Orci dapibus ultrices in iaculis nunc sed augue lacus.
 * Rutrum quisque non tellus orci ac auctor augue mauris augue. 
 * Sem fringilla ut morbi tincidunt augue interdum. 
 * Sit amet mauris commodo quis. 
-* Imperdiet dui accumsan sit amet nulla facilisi morbi tempus.
+* Imperdiet dui accumsan sit amet nulla facilities morbi tempus.
 
 ## Contributing
 

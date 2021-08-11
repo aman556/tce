@@ -184,7 +184,7 @@ By making a contribution to this project, I certify that:
 
 ### Multiple Go Modules
 
-The TCE project is made up of many different, seperate Go modules.
+The TCE project is made up of many different, separate Go modules.
 Each module has its own `go.mod` and `go.sum` file located in the "root" of that individual, digestible piece of software.
 This allows TCE to not have a single dependency graph, but rather, multiple, independent dependency graphs.
 Experimental plugins or packages can pull in different versions of the same library without creating conflicts and collisions.

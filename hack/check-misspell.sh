@@ -21,9 +21,3 @@ fi
 # Spell checking
 misspell -error "${MY_DIR}/.."
 
-#if [[ -z "$(misspell "${MY_DIR}/..")" ]]; 
-#then
-# echo ""
-#else
-#  echo "error"
-#fi

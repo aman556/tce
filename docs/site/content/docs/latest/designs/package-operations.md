@@ -127,7 +127,7 @@ Once a values yaml file has been defined and properly filled out, the [Package](
 make generate-package-metadata CHANNEL=delta REPO_TAG=latest
 ```
 
-The output of running this task is a directory structure for an [imgpkgBundle](https://carvel.dev/imgpkg/docs/latest/resources/#bundle). It contains the Package CRs and an image lock file. All the Packge CR's are concatenated together in the same file.
+The output of running this task is a directory structure for an [imgpkgBundle](https://carvel.dev/imgpkg/docs/latest/resources/#bundle). It contains the Package CRs and an image lock file. All the Package CR's are concatenated together in the same file.
 
 ```txt
 ./addons/repos/generated/delta

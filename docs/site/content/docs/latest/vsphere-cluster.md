@@ -182,7 +182,7 @@ For more information about custom OVA images, see [Building Machine Images](../b
 
 ## Configure DHCP Reservations for the Control Plane Nodes
 
-After you deploy a cluster to vSphere, each control plane node requires a static IP address. This includes both management and Tanzu Kubernetes clusters. These static IP addresses are required in addition to the static IP address that you assigned to Kube-VIP when you deploy a managment cluster.
+After you deploy a cluster to vSphere, each control plane node requires a static IP address. This includes both management and Tanzu Kubernetes clusters. These static IP addresses are required in addition to the static IP address that you assigned to Kube-VIP when you deploy a management cluster.
 
 To make the IP addresses that your DHCP server assigned to the control plane nodes static, you can configure a DHCP reservation for each control plane node in the cluster. For instructions on how to configure DHCP reservations, see your DHCP server documentation.
 
