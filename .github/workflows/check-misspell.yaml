@@ -7,9 +7,6 @@ on:
       - opened
       - synchronize
       - reopened
-    paths:
-      - "**.sh"
-      - "hack/check-misspell.sh"
 
 jobs:
   checkshell:
@@ -31,6 +28,6 @@ jobs:
       - name: Check out code into the Go module directory
         uses: actions/checkout@v1
 
-      - name: Run misspellcheck
+      - name: Run misspell
         run: |
-          make misspellcheck
+          make misspell
