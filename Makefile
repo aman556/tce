@@ -39,7 +39,7 @@ ifndef BUILD_VERSION
 BUILD_VERSION ?= $$(git describe --tags --abbrev=0)
 endif
 CONFIG_VERSION ?= $$(echo "$(BUILD_VERSION)" | cut -d "-" -f1)
-BUILD_EDITION=tce
+BUILD_EDITION=tce-standalone
 
 ifeq ($(strip $(BUILD_VERSION)),)
 BUILD_VERSION = dev
@@ -49,7 +49,7 @@ IS_OFFICIAL_BUILD = ""
 endif
 
 FRAMEWORK_BUILD_VERSION=$$(cat "./hack/FRAMEWORK_BUILD_VERSION")
-NEW_BUILD_VERSION=$$(cat "./hack/NEW_BUILD_VERSION" 2>/dev/null)
+TANZU_FRAMEWORK_REPO_HASH ?= 5a42a2b09e6726dac0626e168e5ee37cbe8626ec
 
 LD_FLAGS = -s -w
 LD_FLAGS += -X "github.com/vmware-tanzu/tanzu-framework/pkg/v1/cli.BuildDate=$(BUILD_DATE)"
@@ -115,6 +115,7 @@ TAG := latest
 .PHONY: lint mdlint shellcheck check
 check: ensure-deps lint mdlint shellcheck
 
+.PHONY: ensure-deps
 ensure-deps:
 	hack/ensure-dependencies.sh
 
@@ -180,7 +181,6 @@ version:
 	@echo "BUILD_VERSION:" ${BUILD_VERSION}
 	@echo "CONFIG_VERSION:" ${CONFIG_VERSION}
 	@echo "FRAMEWORK_BUILD_VERSION:" ${FRAMEWORK_BUILD_VERSION}
-	@echo "NEW_BUILD_VERSION:" ${NEW_BUILD_VERSION}
 	@echo "XDG_DATA_HOME:" $(XDG_DATA_HOME)
 
 .PHONY: package-release
@@ -190,24 +190,17 @@ package-release:
 # IMPORTANT: This should only ever be called CI/github-action
 .PHONY: tag-release
 tag-release: version
-ifeq ($(shell expr $(BUILD_VERSION)), $(shell expr $(CONFIG_VERSION)))
-	BUILD_VERSION=$(BUILD_VERSION) hack/pre-update-tag.sh
-	go run ./hack/tags/tags.go -tag $(BUILD_VERSION) -release
-	OLD_BUILD_VERSION=$(BUILD_VERSION) NEW_BUILD_VERSION=${NEW_BUILD_VERSION} hack/update-tag.sh
-else
-	BUILD_VERSION=$(BUILD_VERSION) hack/pre-update-tag.sh
-	go run ./hack/tags/tags.go -tag $(BUILD_VERSION)
 	BUILD_VERSION=$(BUILD_VERSION) FAKE_RELEASE=$(shell expr $(BUILD_VERSION) | grep fake) hack/update-tag.sh
-endif
 	echo "$(BUILD_VERSION)" | tee -a ./cayman_trigger.txt
 
 .PHONY: upload-signed-assets
 upload-signed-assets: release-env-check
-	go run ./hack/asset/asset.go -tag $(BUILD_VERSION)
+	cd ./hack/asset && go run ./asset.go -tag $(BUILD_VERSION) && cd ../..
 # IMPORTANT: This should only ever be called CI/github-action
 
 clean-release:
 	rm -rf ./build
+	rm -f ./hack/NEW_BUILD_VERSION
 # RELEASE MANAGEMENT
 
 # TANZU CLI
@@ -217,7 +210,7 @@ build-cli: install-cli
 .PHONY: install-cli
 install-cli:
 	TKG_DEFAULT_COMPATIBILITY_IMAGE_PATH="tkg-compatibility" \
-	TANZU_FRAMEWORK_REPO_BRANCH="tce-main" BUILD_EDITION=tce TCE_BUILD_VERSION=$(BUILD_VERSION) \
+	TANZU_FRAMEWORK_REPO_HASH=$(TANZU_FRAMEWORK_REPO_HASH) BUILD_EDITION=tce TCE_BUILD_VERSION=$(BUILD_VERSION) \
 	FRAMEWORK_BUILD_VERSION=${FRAMEWORK_BUILD_VERSION} hack/build-tanzu.sh
 
 .PHONY: clean-framework
@@ -241,7 +234,7 @@ prep-build-cli:
 .PHONY: build-cli-plugins
 build-cli-plugins: prep-build-cli
 	@cd ./hack/builder/ && \
-		BUILD_EDITION="tce" $(GO) run github.com/vmware-tanzu/tanzu-framework/cmd/cli/plugin-admin/builder cli compile --version $(BUILD_VERSION) \
+		$(GO) run github.com/vmware-tanzu/tanzu-framework/cmd/cli/plugin-admin/builder cli compile --version $(BUILD_VERSION) \
 			--ldflags "$(LD_FLAGS)" --path ../../cli/cmd/plugin --artifacts ../../${ARTIFACTS_DIR}
 
 .PHONY: install-cli-plugins
@@ -298,7 +291,7 @@ update-package-repo: check-carvel # Update the repository metadata. CHANNEL will
 
 
 generate-package-repo:
-	go run ./hack/packages/generate-package-repository.go $${CHANNEL}
+	cd ./hack/packages/ && go run generate-package-repository.go $${CHANNEL}
 
 generate-package-metadata: check-carvel # Usage: make generate-package-metadata OCI_REGISTRY=repo.example.com/foo CHANNEL=alpha REPO_TAG=0.4.1
 	@printf "\n===> Generating package metadata for $${CHANNEL}\n";\
@@ -341,5 +334,9 @@ tce-docker-standalone-cluster-e2e-test:
 # TCE Docker Managed Cluster E2E Test
 tce-docker-managed-cluster-e2e-test:
 	test/docker/run-tce-docker-managed-cluster.sh
+
+# TCE vSphere Standalone Cluster E2E Test
+tce-vsphere-standalone-cluster-e2e-test:
+	test/vsphere/run-tce-vsphere-standalone-cluster.sh
 
 ##### E2E TESTS #####

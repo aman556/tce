@@ -12,8 +12,8 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/yaml"
 
-	"github.com/vmware-tanzu/tce/test/pkg/repo"
-	"github.com/vmware-tanzu/tce/test/pkg/ytt"
+	"github.com/vmware-tanzu/tce/addons/packages/test/pkg/repo"
+	"github.com/vmware-tanzu/tce/addons/packages/test/pkg/ytt"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -49,8 +49,6 @@ var _ = Describe("Calico Ytt Templates", func() {
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  annotations:
-    kapp.k14s.io/versioned: ""
   name: calico-config
   namespace: kube-system
 data:
@@ -122,8 +120,6 @@ calico:
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  annotations:
-    kapp.k14s.io/versioned: ""
   name: calico-config
   namespace: kube-system
 data:
