@@ -132,6 +132,10 @@ mdlint:
 
 shellcheck:
 	hack/check-shell.sh
+
+misspell:
+	hack/check-misspell.sh
+	
 ##### LINTING TARGETS #####
 
 ##### Tooling Binaries
