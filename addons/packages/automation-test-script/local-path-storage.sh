@@ -13,10 +13,10 @@ then
   tanzu package install local-path-storage --package-name local-path-storage.community.tanzu.vmware.com --version "${version}"
 fi
 
-#sleep 30s
-
-kubectl create -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/examples/pvc/pvc.yaml
-kubectl create -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/examples/pod/pod.yaml
+sleep 15s
+MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+kubectl create -f "${MY_DIR}"/pvc.yaml
+kubectl create -f "${MY_DIR}"/pod.yaml
 
 sleep 30
 
@@ -37,11 +37,11 @@ fi
 kubectl exec volume-test -- sh -c "echo local-path-storage-test > /data/test"
 
 sleep 15
-kubectl delete -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/examples/pod/pod.yaml
+kubectl delete -f "${MY_DIR}"/pod.yaml
  
 sleep 15s
 
-kubectl create -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/examples/pod/pod.yaml
+kubectl create -f "${MY_DIR}"/pod.yaml
 
 sleep 15s
 

@@ -12,6 +12,8 @@ then
     kubectl logs "${pod_name}" -n fluent-bit | grep "Fluent Bit v1.7.5"
 fi
 
+sleep 30s
+
 exitcode=$?
 tanzu package installed delete fluent-bit -y
 
