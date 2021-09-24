@@ -31,9 +31,9 @@ exitcode=$?
 
 if [ "${exitcode}" == 1 ] || [ "${exitcode_metric}" == 1 ] 
 then
-    echo "Grafana failed"
+    echo "Prometheus failed"
 else
-    echo "Grafana Passed"
+    echo "Prometheus Passed"
 fi
 
 tanzu package installed delete local-path-storage -y
