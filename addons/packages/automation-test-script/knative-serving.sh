@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#NOT COMPLETED YET
+
 tanzu package installed list | grep "contour.community.tanzu.vmware.com"
 exitcode_contour=$?
 MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
