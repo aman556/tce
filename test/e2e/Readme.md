@@ -8,26 +8,26 @@ This is the folder in which we can invoke e2e tests for tce addons packages.
 
 ## Supported flags
 
-1. --kubeconfig : Use to set the kube config path
-2. --kube-context : Use to set cluster context
-3. --packages : Use to filter out the addon package tests to run
-4. --version: Provide respective version for packages mentioned.
-5. --provider : The environment in which test should run (eg: docker, aws, vsphere etc)
-6. --cluster-type : Set type of cluster (eg: standalone, management)
-7. --create-cluster : Provide true if cluster has to provision. Provide false if the cluster is already exist. If true automation creates cluster based on the provider and cluster type.
-8. --tce-version : Provide tce release version to install(eg: "v0.7.0"). If not provided then build it from source code.
-9. --guest-cluster-name: Provide cluster name (for standalone and workload cluster incase of managed)
-10. --management-cluster-name: Provide cluster name for management cluster.
-11. --cluster-plan: Provide Cluster Plan (eg: dev, prod etc). By default it will be set to "dev".
-12. --cleanup-cluster: Provide true for tearing down the cluster.
+1. `--kubeconfig` : Use to set the kube config path
+2. `--kube-context` : Use to set cluster context
+3. `--packages` : Use to filter out the addon package tests to run
+4. `--version` : Provide respective version for packages mentioned.
+5. `--provider` : The environment in which test should run (eg: docker, aws, vsphere etc)
+6. `--cluster-type` : Set type of cluster (eg: standalone, management)
+7. `--create-cluster` : Provide true if cluster has to provision. Provide false if the cluster is already exist. If true automation creates cluster based on the provider and cluster type.
+8. `--tce-version` : Provide tce release version to install(eg: "v0.7.0"). If not provided then build it from source code.
+9. `--guest-cluster-name` : Provide cluster name (for standalone and workload cluster incase of managed)
+10. `--management-cluster-name` : Provide cluster name for management cluster.
+11. `--cluster-plan` : Provide Cluster Plan (eg: dev, prod etc). By default it will be set to "dev".
+12. `--cleanup-cluster` : Provide true for tearing down the cluster.
 
 ## How to run framework to install TCE release from github page, provision cluster and test
 
    ```ginkgo -v -- --kubeconfig=$KUBECONFIG --packages="external-dns" --version="0.8.0" --provider-name="docker" --cluster-type="standalone" --guest-cluster-name="tce-mycluster" --create-cluster --tce-version="v0.7.0"```
 
-## How to create management cluster on docker
+## How to run tests packages on management cluster
 
-   ```ginkgo -v -- --kubeconfig=$KUBECONFIG --packages="external-dns" --version="0.8.0" --provider-name="docker" --cluster-type="managed" --tce-version="v0.7.0" --management-cluster-name="tce-management-cluster" --create-cluster --guest-cluster-name="tce-workload-cluster"```
+   ```ginkgo -v -- --kubeconfig=$KUBECONFIG --packages="external-dns" --version="0.8.0" --provider-name="docker" --cluster-type="managed" --tce-version="v0.9.1" --management-cluster-name="tce-management-cluster" --create-cluster --guest-cluster-name="tce-workload-cluster"```
 
 ## How to run framework to install TCE by building release from source code, provision cluster and test
 
