@@ -25,7 +25,7 @@ This is the folder in which we can invoke e2e tests for tce addons packages.
 
    ```ginkgo -v -- --kubeconfig=$KUBECONFIG --packages="external-dns" --version="0.8.0" --provider-name="docker" --cluster-type="standalone" --guest-cluster-name="tce-mycluster" --create-cluster --tce-version="v0.7.0"```
 
-## How to run tests packages on management cluster
+## How to run tests on management cluster
 
    ```ginkgo -v -- --kubeconfig=$KUBECONFIG --packages="external-dns" --version="0.8.0" --provider-name="docker" --cluster-type="managed" --tce-version="v0.9.1" --management-cluster-name="tce-management-cluster" --create-cluster --guest-cluster-name="tce-workload-cluster"```
 
